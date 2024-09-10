@@ -3,7 +3,7 @@
 --DROP TABLE IF EXISTS USER_ROLES;
 --DROP TABLE IF EXISTS OAUTH2_USER;
 --DROP TABLE IF EXISTS BOARD;
-DROP TABLE IF EXISTS COMMENT;
+--DROP TABLE IF EXISTS COMMENT;
 --
 --CREATE TABLE USER (
 --    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -51,15 +51,22 @@ DROP TABLE IF EXISTS COMMENT;
 --    board_id BIGINT not null,
 --    user_id BIGINT not null
 --);
+--
+--CREATE TABLE COMMENT (
+--    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    board_id BIGINT NOT NULL,
+--    parent_id BIGINT NULL,
+--    content TEXT NOT NULL,
+--    writer_id BIGINT NOT NULL,
+--    create_date DATETIME NOT NULL
+--);
 
-CREATE TABLE COMMENT (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    board_id BIGINT NOT NULL,
-    parent_id BIGINT NULL,
-    content TEXT NOT NULL,
-    writer_id BIGINT NOT NULL,
-    create_date DATETIME NOT NULL
-);
+--CREATE TRIGGER before_delete_comment
+--BEFORE DELETE ON comment
+--FOR EACH ROW
+--BEGIN
+--    delete from comment where parent_id = old.id
+--END;
 
 
 
