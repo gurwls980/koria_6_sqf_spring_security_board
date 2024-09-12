@@ -1,5 +1,6 @@
 package com.study.SpringSecurityMybatis.service;
 
+import com.study.SpringSecurityMybatis.dto.request.ReqModifyCommentDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqWriteCommentDto;
 import com.study.SpringSecurityMybatis.dto.response.RespCommentDto;
 import com.study.SpringSecurityMybatis.entity.Comment;
@@ -34,7 +35,17 @@ public class CommentService {
                 .build();
     }
 
+    public void modifyComment(ReqModifyCommentDto dto) {
+        accessCheck(dto.getCommentId());
+        commentMapper.updateById(dto.toEntity());
+    }
+
     public void deleteComment(Long commentId) {
+        accessCheck(commentId);
+        commentMapper.deleteById(commentId);
+    }
+
+    private void accessCheck(Long commentId) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -43,7 +54,5 @@ public class CommentService {
         if(principalUser.getId() != comment.getWriterId()) {
             throw new AccessDeniedException();
         }
-
-        commentMapper.deleteById(commentId);
     }
 }

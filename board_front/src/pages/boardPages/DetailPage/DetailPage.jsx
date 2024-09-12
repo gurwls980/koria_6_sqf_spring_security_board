@@ -193,6 +193,11 @@ function DetailPage(props) {
         content: "",
     });
 
+    const [ commentModifyData, setCommentModifyData ] = useState({
+        commentId: 0,
+        content: "",
+    });
+
     const board = useQuery(
         ["boardQuery", boardId],
         async () => {
@@ -265,6 +270,20 @@ function DetailPage(props) {
         }
     );
 
+    const modifyCommentMutation = useMutation(
+        async () => await instance.put(`/board/comments/${commentModifyData.commentId}`, commentModifyData),
+        {
+            onSuccess: response => {
+                alert("댓글 수정이 완료되었습니다.");
+                setCommentData({
+                    commentId: 0,
+                    content: "",
+                });
+                comments.refetch();
+            }
+        }
+    );
+
     const deleteCommentMutation = useMutation(
         async (commentId) => await instance.delete(`/board/comment/${commentId}`),
         {
@@ -296,6 +315,13 @@ function DetailPage(props) {
         }));
     }
 
+    const handleCommentModifyInputOnChange = (e) => {
+        setCommentModifyData(commentData => ({
+            ...commentData,
+            [e.target.name]: e.target.value,
+        }));
+    }
+
     const handleCommentsSubmitOnClick = () => {
         if(!userInfoData?.data) {
             if (window.confirm("로그인 후 이용가능합니다. 로그인페이지로 이동하시겠습니까?")) {
@@ -306,12 +332,30 @@ function DetailPage(props) {
         commentMutation.mutateAsync();
     }
 
+    const handleCommentModifySubmitOnClick = () => {
+        modifyCommentMutation.mutateAsync();
+    }
+
     const handleReplyButtonOnClick = (commentId) => {
         setCommentData(commentData => ({
             boardId,
             parentId: commentId === commentData.parentId ? null : commentId,
             content: "",
         }));
+    }
+
+    const handleModifyCommentButtonOnClick = (commentId, content) => {
+        setCommentModifyData(commentData => ({
+            commentId,
+            content: ""
+        }))
+    }
+
+    const handleModifyCommentCancelButtonOnClick = () => {
+        setCommentModifyData(commentData => ({
+            commentId: 0,
+            content: ""
+        }))
     }
 
     const handleDeleteCommentButtonOnClick = (commentId) => {
@@ -401,8 +445,14 @@ function DetailPage(props) {
                                                     {
                                                         userInfoData?.data?.userId === comment.writerId &&
                                                         <div>
-                                                            <button>수정</button>
-                                                            <button onClick={() => handleDeleteCommentButtonOnClick(comment.id    )}>삭제</button>
+                                                            {
+                                                                commentModifyData.commentId === comment.id
+                                                                ?
+                                                                <button onClick={handleModifyCommentCancelButtonOnClick}>취소</button>
+                                                                :
+                                                                <button onClick={() => handleModifyCommentButtonOnClick(comment.id, comment.content)}>수정</button>
+                                                            }
+                                                            <button onClick={() => handleDeleteCommentButtonOnClick(comment.id)}>삭제</button>
                                                         </div>
                                                     }
                                                     {   
@@ -419,6 +469,13 @@ function DetailPage(props) {
                                             <div css={commentWriteBox(comment.level)}>
                                                 <textarea name="content" onChange={handleCommentInputOnChange} value={commentData.content} placeholder="답글을 입력하세요."></textarea>
                                                 <button onClick={handleCommentsSubmitOnClick}>작성하기</button>
+                                            </div>
+                                        }
+                                        {
+                                            commentModifyData.commentId === comment.id &&
+                                            <div css={commentWriteBox(comment.level)}>
+                                                <textarea name="content" onChange={handleCommentModifyInputOnChange} value={commentModifyData.content} placeholder="답글을 입력하세요."></textarea>
+                                                <button onClick={handleCommentModifySubmitOnClick}>수정하기</button>
                                             </div>
                                         }
                                     </div>
