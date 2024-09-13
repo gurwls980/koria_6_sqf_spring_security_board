@@ -1,11 +1,9 @@
 package com.study.SpringSecurityMybatis.dto.request;
 
 import com.study.SpringSecurityMybatis.entity.Comment;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class ReqModifyCommentDto {
     private Long commentId;
     private String content;

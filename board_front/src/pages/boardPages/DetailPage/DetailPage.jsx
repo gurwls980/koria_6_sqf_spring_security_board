@@ -223,7 +223,7 @@ function DetailPage(props) {
     const comments = useQuery(
         ["commentsQuery"],
         async () => {
-            return instance.get(`/board/${boardId}/comment`);
+            return instance.get(`/board/${boardId}/comments`);
         },
         {
             retry: 0,

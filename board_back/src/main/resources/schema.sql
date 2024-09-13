@@ -64,14 +64,4 @@
 --CREATE TRIGGER before_delete_comment
 --BEFORE DELETE ON comment
 --FOR EACH ROW
---BEGIN
---    delete from comment where parent_id = old.id
---END;
-
-
-
-
-
-
-
-
+--CALL 'delete from comment where parent_id = old.id';

@@ -40,7 +40,7 @@ const paginateContainer = css`
 `;
 
 function NumberBoardListPage(props) {
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [ searchParams, setSearchParams ] = useSearchParams();    // 주소:포트/페이지URL?key=value(쿼리스트링, 파람스)
     const [ totalPageCount, setTotalPageCount ] = useState(1);
     const navigate = useNavigate();
     const limit = 10;
@@ -53,12 +53,12 @@ function NumberBoardListPage(props) {
             onSuccess: response => setTotalPageCount(
                 response.data.totalCount % limit === 0
                 ? response.data.totalCount / limit
-                : (response.data.totalCount / limit) + 1)
+                : Math.floor(response.data.totalCount / limit) + 1)
         }
     );
 
-    const handlePageOnChange = (event) => {
-        navigate(`/board/number?page=${event.selected + 1}`);
+    const handlePageOnChange = (e) => {
+        navigate(`/board/number?page=${e.selected + 1}`);
     }
 
     return (
@@ -97,7 +97,7 @@ function NumberBoardListPage(props) {
                     breakLabel="..."
                     previousLabel={<><IoMdArrowDropleft /></>}
                     nextLabel={<><IoMdArrowDropright /></>}
-                    pageCount={totalPageCount - 1}
+                    pageCount={parseInt(totalPageCount)}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     activeClassName='active'

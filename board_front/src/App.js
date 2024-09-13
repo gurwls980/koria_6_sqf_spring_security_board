@@ -11,6 +11,7 @@ import OAuth2LoginPage from "./pages/OAuth2LoginPage/OAuth2LoginPage";
 import WritePage from "./pages/boardPages/WritePage/WritePage";
 import DetailPage from "./pages/boardPages/DetailPage/DetailPage";
 import NumberBoardListPage from "./pages/boardPages/NumberBoardListPage/NumberBoardListPage";
+import ScrollBoardListPage from "./pages/boardPages/ScrollBoardListPage/ScrollBoardListPage";
 
 function App() {
     const location = useLocation();
@@ -86,7 +87,7 @@ function App() {
             <Route path="/profile" element={ <UserProfilePage />} />
 
             <Route path="/board/number" element={ <NumberBoardListPage /> }/>
-            <Route path="/board/scroll" element={ <></> }/>
+            <Route path="/board/scroll" element={ <ScrollBoardListPage /> }/>
             <Route path="/board/detail/:boardId" element={ <DetailPage /> } />
             <Route path="/board/write" element={ <WritePage /> } />
 

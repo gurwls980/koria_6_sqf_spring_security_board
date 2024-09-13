@@ -32,7 +32,7 @@
     </update>
     <select id="findById" resultMap="boardResultMap">
         select
-            b.id as boardId,
+            b.id as board_id,
             b.title,
             b.content,
             b.user_id,
@@ -59,9 +59,11 @@
         select
             b.id,
             b.title,
+            b.content,
+            u.img as writerProfileImg,
             u.username as writerName,
             ifnull(lc.like_cnt, 0) as likeCount,
-            b.view_cnt as viewCount
+            b.view_count as viewCount
         from
             board b
             left outer join user u on(u.id = b.user_id)

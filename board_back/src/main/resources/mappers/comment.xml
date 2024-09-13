@@ -43,7 +43,7 @@
              FROM
                  comment c
              JOIN
-                 comment_tree ct ON (c.parent_id = ct.id)
+                 comment_tree ct ON(c.parent_id = ct.id)
          )
 
          delete
@@ -68,6 +68,7 @@
                 comment
             WHERE
                 parent_id IS NULL
+                and board_id = #{boardId}
 
             UNION ALL
 
@@ -83,7 +84,7 @@
             FROM
                 comment c
             JOIN
-                comment_tree ct ON (c.parent_id = ct.id)
+                comment_tree ct ON(c.parent_id = ct.id)
             where
                 c.board_id = #{boardId}
         )
