@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
@@ -14,6 +15,9 @@ public interface BoardMapper {
     List<BoardList> findAllByStartIndexAndLimit(
             @Param("startIndex") Long startIndex,
             @Param("limit") Long limit);
+    List<BoardList> findAllBySearch(Map<String, Object> params);
+
     int modifyViewCountById(Long id); // long을 사용안하고 Long을 사용하는이유: null을사용하기 때문
     int getCountAll();
+    int getCountAllBySearch(Map<String, Object> params);
 }

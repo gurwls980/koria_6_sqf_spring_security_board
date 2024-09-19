@@ -1,6 +1,7 @@
 package com.study.SpringSecurityMybatis.service;
 
 import com.study.SpringSecurityMybatis.dto.request.ReqBoardListDto;
+import com.study.SpringSecurityMybatis.dto.request.ReqSearchBoardDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqWriteBoardDto;
 import com.study.SpringSecurityMybatis.dto.response.RespBoardDetailDto;
 import com.study.SpringSecurityMybatis.dto.response.RespBoardLikeInfoDto;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -38,6 +40,23 @@ public class BoardService {
 
         boardMapper.save(board);
         return board.getId();
+    }
+
+    public RespBoardListDto getSearchBoard(ReqSearchBoardDto dto) {
+        Long startIndex = (dto.getPage() - 1) * dto.getLimit();
+        Map<String, Object> params = Map.of(
+                "startIndex", startIndex,
+                "limit", dto.getLimit(),
+                "searchValue", dto.getSearch() == null ? "" : dto.getSearch(),
+                "option", dto.getOption() == null ? "all" : dto.getOption()
+        );
+        List<BoardList> boardLists = boardMapper.findAllBySearch(params);
+        Integer boardTotalCount = boardMapper.getCountAllBySearch(params);
+
+        return  RespBoardListDto.builder()
+                .boards(boardLists)
+                .totalCount(boardTotalCount)
+                .build();
     }
 
     public RespBoardListDto getBoardList(ReqBoardListDto dto) {
