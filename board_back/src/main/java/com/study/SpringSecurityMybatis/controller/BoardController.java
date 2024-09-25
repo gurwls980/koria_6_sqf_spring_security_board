@@ -4,6 +4,7 @@ import com.study.SpringSecurityMybatis.aspect.annotation.ValidAop;
 import com.study.SpringSecurityMybatis.dto.request.ReqBoardListDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqSearchBoardDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqWriteBoardDto;
+import com.study.SpringSecurityMybatis.dto.response.RespBoardListDto;
 import com.study.SpringSecurityMybatis.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/search")
-    public ResponseEntity<?> getSearchBoards(ReqSearchBoardDto dto) {
+    public ResponseEntity<RespBoardListDto> getSearchBoards(ReqSearchBoardDto dto) {    // Open Api 초안생성하려면 getSearchBoard에있는 RespBoardListDto를 <?>안에 만들어야한다
         return ResponseEntity.ok().body(boardService.getSearchBoard(dto)); //null 바꾸기
     }
 

@@ -65,3 +65,5 @@
 --BEFORE DELETE ON comment
 --FOR EACH ROW
 --CALL 'delete from comment where parent_id = old.id';
+
+-- ALTER TABLE USER ADD COLUMN email_valid int NOT NULL DEFAULT 0;

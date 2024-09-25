@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signupApi } from '../../apis/signupApi';
+import { useMutation } from 'react-query';
+import { instance } from '../../apis/util/instance';
 
 const layout = css`
     display: flex;
@@ -86,7 +88,12 @@ function UserJoinPage(props) {
         checkPassword: <></>,
         name: <></>,
         email: <></>,
-    }); 
+    });
+
+    const sendMail = useMutation(
+        async ({ toEmail, username }) =>
+            await instance.post("/auth/mail", {toEmail, username})
+    )
 
     const handleInputUserOnChange = (e) => {
         setInputUser(inputUser => ({
@@ -102,7 +109,11 @@ function UserJoinPage(props) {
             return;
         }
 
+        const toEmail = signupData.ok.user.email;
+        const username = signupData.ok.user.username
+        await sendMail.mutateAsync({ toEmail, username });
         alert(`${signupData.ok.message}`);
+
         navigate("/user/login");
     }
 

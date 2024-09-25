@@ -13,6 +13,7 @@ import DetailPage from "./pages/boardPages/DetailPage/DetailPage";
 import NumberBoardListPage from "./pages/boardPages/NumberBoardListPage/NumberBoardListPage";
 import ScrollBoardListPage from "./pages/boardPages/ScrollBoardListPage/ScrollBoardListPage";
 import SearchBoardPage from "./pages/boardPages/SearchBoardPage/SearchBoardPage";
+import MailPage from "./pages/MailPage/MailPage";
 
 function App() {
     const location = useLocation();
@@ -81,6 +82,7 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={ <IndexPage /> } />
+            <Route path="/mail" element={ <MailPage /> } />
             <Route path="/user/join" element={ <UserJoinPage /> } />
             <Route path="/user/join/oauth2" element={ <OAuth2JoinPage /> } />
             <Route path="/user/login" element={ <UserLoginPage /> } />

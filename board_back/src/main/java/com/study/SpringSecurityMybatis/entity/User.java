@@ -20,6 +20,7 @@ public class User {
     private String password;
     private String name;
     private String email;
+    private int emailValid;
     private String img;
     private Set<OAuth2User> oAuth2Users;
     private Set<UserRoles> userRoles;
